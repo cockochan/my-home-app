@@ -1,0 +1,7 @@
+{
+  "yaml.validate": false,
+  "files.associations": {
+    "*.yaml": "yaml",
+    "*.yml": "yaml"
+  }
+}

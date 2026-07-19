@@ -1,0 +1,32 @@
+frontend:
+  replicaCount: 1
+  image:
+    repository: ghcr.io/example/my-home-app-frontend
+    tag: latest
+    pullPolicy: IfNotPresent
+  service:
+    type: ClusterIP
+    port: 80
+
+backend:
+  replicaCount: 1
+  image:
+    repository: ghcr.io/example/my-home-app-backend
+    tag: latest
+    pullPolicy: IfNotPresent
+  service:
+    type: ClusterIP
+    port: 5000
+
+postgres:
+  enabled: true
+  storage: 2Gi
+  image: postgres:16-alpine
+  username: appuser
+  password: apppassword
+  database: myhomeapp
+
+ingress:
+  enabled: false
+  className: ""
+  host: my-home-app.local
