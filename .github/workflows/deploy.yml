@@ -1,0 +1,60 @@
+name: deploy-rpi
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+env:
+  RPI_HOST: blackpie
+  RPI_USER: cockochan
+  RPI_PORT: 22
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set lowercase image owner
+        run: echo "IMAGE_OWNER=$(echo ${{ github.repository_owner }} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
+
+      - name: Deploy to Raspberry Pi via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ env.RPI_HOST }}
+          username: ${{ env.RPI_USER }}
+          key: ${{ secrets.RPI_SSH_PRIVATE_KEY }}
+          port: ${{ env.RPI_PORT }}
+          script: |
+            set -euo pipefail
+            export IMAGE_OWNER="${{ env.IMAGE_OWNER }}"
+            export IMAGE_TAG="${{ github.sha }}"
+            export REPO_URL="https://github.com/${{ github.repository }}.git"
+            export DEPLOY_DIR="$HOME/my-home-app"
+
+            mkdir -p "$DEPLOY_DIR"
+            cd "$DEPLOY_DIR"
+
+            if [ -d .git ]; then
+              git remote set-url origin "$REPO_URL"
+              git fetch --all --prune
+              git checkout -B deploy "${IMAGE_TAG}" || git checkout -B deploy origin/main
+            else
+              git clone --depth 1 "$REPO_URL" .
+              git fetch origin "${IMAGE_TAG}"
+              git checkout -B deploy "FETCH_HEAD"
+            fi
+
+            helm upgrade --install my-home-app ./helm/my-home-app \
+              --set frontend.image.repository="ghcr.io/${IMAGE_OWNER}/my-home-app-frontend" \
+              --set frontend.image.tag="${IMAGE_TAG}" \
+              --set backend.image.repository="ghcr.io/${IMAGE_OWNER}/my-home-app-backend" \
+              --set backend.image.tag="${IMAGE_TAG}" \
+              --namespace default \
+              --create-namespace \
+              --wait --timeout 10m

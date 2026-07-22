@@ -35,6 +35,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - uses: docker/setup-qemu-action@v3
+
       - uses: docker/setup-buildx-action@v3
 
       - name: Log in to GHCR
@@ -51,12 +53,18 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: ./frontend
+          platforms: linux/arm64
           push: true
-          tags: ghcr.io/${{ env.IMAGE_OWNER }}/my-home-app-frontend:${{ github.sha }}
+          tags: |
+            ghcr.io/${{ env.IMAGE_OWNER }}/my-home-app-frontend:${{ github.sha }}
+            ghcr.io/${{ env.IMAGE_OWNER }}/my-home-app-frontend:latest
 
       - name: Build and push backend image
         uses: docker/build-push-action@v6
         with:
           context: ./backend
+          platforms: linux/arm64
           push: true
-          tags: ghcr.io/${{ env.IMAGE_OWNER }}/my-home-app-backend:${{ github.sha }}
+          tags: |
+            ghcr.io/${{ env.IMAGE_OWNER }}/my-home-app-backend:${{ github.sha }}
+            ghcr.io/${{ env.IMAGE_OWNER }}/my-home-app-backend:latest
