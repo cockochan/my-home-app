@@ -1,0 +1,203 @@
+.fc-stage {
+  --fc-bg: #0b0a12;
+  --fc-panel: #171325;
+  --fc-magenta: #ff2e88;
+  --fc-violet: #9b5cff;
+  --fc-orange: #ff8a3d;
+  --fc-gold: #ffd166;
+  --fc-teal: #17e8c9;
+  --fc-text: #f4f1fb;
+  --fc-muted: #8f88ab;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  padding: 30px;
+  border-radius: 20px;
+  background:
+    radial-gradient(ellipse at 15% 0%, rgba(255, 46, 136, 0.15), transparent 55%),
+    radial-gradient(ellipse at 90% 10%, rgba(155, 92, 255, 0.15), transparent 50%),
+    var(--fc-bg);
+  color: var(--fc-text);
+  font-family: "Space Grotesk", sans-serif;
+  max-width: 380px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.fc-sign {
+  font-family: "Bungee", cursive;
+  font-size: 28px;
+  text-align: center;
+  color: var(--fc-gold);
+  text-shadow: 0 0 6px rgba(255, 209, 102, 0.8), 0 0 18px rgba(255, 138, 61, 0.55),
+    0 0 34px rgba(255, 46, 136, 0.3);
+}
+.fc-sign small {
+  display: block;
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 600;
+  font-size: 11px;
+  letter-spacing: 4px;
+  color: var(--fc-teal);
+  text-shadow: 0 0 10px rgba(23, 232, 201, 0.7);
+  margin-top: 6px;
+}
+
+.fc-cookie-zone {
+  position: relative;
+  width: 200px;
+  height: 170px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.fc-cookie-zone.fc-locked {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+.fc-cookie {
+  width: 160px;
+  height: 160px;
+  transition: transform 0.15s ease;
+  filter: drop-shadow(0 10px 25px rgba(0, 0, 0, 0.5));
+}
+.fc-cookie-zone:not(.fc-locked):hover .fc-cookie {
+  transform: scale(1.04) rotate(-2deg);
+}
+.fc-cookie-zone.fc-cracked .fc-cookie {
+  display: none;
+}
+
+.fc-half {
+  display: none;
+  position: absolute;
+  width: 95px;
+  filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.5));
+}
+.fc-cookie-zone.fc-cracked .fc-half {
+  display: block;
+}
+.fc-halfL {
+  left: 6px;
+  top: 25px;
+  transform-origin: right center;
+  animation: fc-openL 0.4s ease forwards;
+}
+.fc-halfR {
+  right: 6px;
+  top: 25px;
+  transform-origin: left center;
+  animation: fc-openR 0.4s ease forwards;
+}
+@keyframes fc-openL {
+  from {
+    transform: rotate(0deg) translateX(0);
+  }
+  to {
+    transform: rotate(-18deg) translateX(-14px);
+  }
+}
+@keyframes fc-openR {
+  from {
+    transform: rotate(0deg) translateX(0);
+  }
+  to {
+    transform: rotate(18deg) translateX(14px);
+  }
+}
+
+.fc-hint {
+  font-size: 13px;
+  color: var(--fc-muted);
+  text-align: center;
+  min-height: 18px;
+}
+.fc-hint-locked {
+  color: var(--fc-orange);
+}
+
+.fc-slip {
+  width: 100%;
+  max-width: 320px;
+  min-height: 70px;
+  background: linear-gradient(180deg, #fdf6e3, #f7ecc9);
+  color: #241a08;
+  border-radius: 4px;
+  padding: 18px 22px;
+  font-family: "Caveat", cursive;
+  font-size: 22px;
+  line-height: 1.35;
+  text-align: center;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(0, 0, 0, 0.05) inset;
+  box-sizing: border-box;
+  opacity: 0;
+  transform: translateY(10px) scale(0.96);
+  animation: fc-slip-in 0.4s ease forwards;
+}
+@keyframes fc-slip-in {
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.fc-tag {
+  display: inline-block;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 10px;
+  letter-spacing: 2px;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 20px;
+  margin-bottom: 8px;
+  color: white;
+}
+.fc-tag-flirty {
+  background: linear-gradient(135deg, var(--fc-magenta), var(--fc-violet));
+}
+.fc-tag-absurd {
+  background: linear-gradient(135deg, var(--fc-orange), var(--fc-gold));
+  color: #241a08;
+}
+.fc-tag-dark {
+  background: linear-gradient(135deg, #3a3450, #171325);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.fc-lucky {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 11px;
+  color: #6b5a2c;
+  margin-top: 10px;
+  letter-spacing: 1px;
+}
+
+.fc-remaining {
+  font-size: 11px;
+  letter-spacing: 1px;
+  color: var(--fc-muted);
+  text-transform: uppercase;
+}
+
+.fc-again-btn {
+  padding: 10px 22px;
+  border-radius: 10px;
+  border: none;
+  background: linear-gradient(135deg, var(--fc-magenta), var(--fc-violet));
+  color: white;
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+  box-shadow: 0 6px 20px rgba(255, 46, 136, 0.35);
+  transition: transform 0.12s ease;
+}
+.fc-again-btn:active {
+  transform: scale(0.96);
+}

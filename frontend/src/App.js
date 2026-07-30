@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './Navbar';
+import FortuneCookie from './FortuneCookie';
 import './App.css';
 
 const apiBaseUrl = process.env.REACT_APP_API_URL || 'http://localhost:5000';
@@ -56,6 +57,10 @@ function App() {
                   <p>Your gateway to managing Raspberry Pi devices</p>
                   <button className="cta-button">Get Started</button>
                 </section>
+
+                <div style={{ display: 'flex', justifyContent: 'center', margin: '20px 0' }}>
+                  <FortuneCookie />
+                </div>
 
                 <section className="features-section">
                   <div className="feature-card">
