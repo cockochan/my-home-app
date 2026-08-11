@@ -4,12 +4,8 @@ services:
   frontend:
     build:
       context: ./frontend
-      args:
-        REACT_APP_API_URL: http://localhost:5000
     ports:
       - "3000:80"
-    environment:
-      - REACT_APP_API_URL=http://localhost:5000
     depends_on:
       backend:
         condition: service_started

@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './Navbar';
 import FortuneCookie from './FortuneCookie';
+import Authentication from './Authentication';
+import { apiUrl } from './config';
 import './App.css';
-
-const apiBaseUrl = process.env.REACT_APP_API_URL || 'http://localhost:5000';
 
 function App() {
   const [apiStatus, setApiStatus] = useState('Checking...');
@@ -16,7 +16,7 @@ function App() {
   useEffect(() => {
     let isMounted = true;
 
-    fetch(`${apiBaseUrl}/api`)
+    fetch(apiUrl('/api'))
       .then((response) => {
         if (!response.ok) {
           throw new Error('Backend request failed');
@@ -103,12 +103,7 @@ function App() {
               </div>
             } />
 
-            <Route path="/authentication" element={
-              <div className="page-content">
-                <h2>Authentication</h2>
-                <p>This is the authentication page with future login/logout functionality.</p>
-              </div>
-            } />
+<Route path="/authentication" element={<Authentication />} />
           </Routes>
         </main>
       </div>

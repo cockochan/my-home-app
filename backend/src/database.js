@@ -39,6 +39,16 @@ async function initializeDatabase() {
       WHERE NOT EXISTS (SELECT 1 FROM app_status WHERE name = 'backend')
     `);
 
+    // Create users table for authentication
+    await dbPool.query(`
+      CREATE TABLE IF NOT EXISTS users (
+        id SERIAL PRIMARY KEY,
+        email VARCHAR(255) NOT NULL UNIQUE,
+        password_hash TEXT NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      )
+    `);
+
     return true;
   } catch (error) {
     console.error('Database initialization failed:', error.message);
