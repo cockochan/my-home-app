@@ -22,7 +22,10 @@ const Registration = ({ onExistingUser }) => {
         body: JSON.stringify({ email, password })
       });
 
-      const data = await response.json();
+      const contentType = response.headers.get('content-type') || '';
+      const data = contentType.includes('application/json')
+        ? await response.json()
+        : { error: await response.text() };
 
       if (response.ok) {
         setMessage('Registration successful! You can now log in.');
@@ -31,7 +34,7 @@ const Registration = ({ onExistingUser }) => {
         setPassword('');
         setShowPassword(false);
       } else {
-        const errorText = data?.error || 'Registration failed. Please try again.';
+        const errorText = data?.error || data?.message || 'Registration failed. Please try again.';
         setMessage(errorText);
         setMessageType(errorText.toLowerCase().includes('email already taken') ? 'warning' : 'error');
       }

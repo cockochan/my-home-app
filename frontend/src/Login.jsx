@@ -18,13 +18,16 @@ const Login = () => {
         body: JSON.stringify({ email, password })
       });
 
+      const contentType = response.headers.get('content-type') || '';
+      const data = contentType.includes('application/json')
+        ? await response.json()
+        : { error: await response.text() };
+
       if (response.ok) {
-        const data = await response.json();
         // Handle successful login (e.g., store token in localStorage)
         console.log('Login successful:', data);
       } else {
-        const errorData = await response.json();
-        alert(errorData.error);
+        alert(data.error || 'Login failed. Please try again.');
       }
     } catch (error) {
       console.error('Login error:', error);
