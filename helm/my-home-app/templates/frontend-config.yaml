@@ -3,5 +3,8 @@ kind: ConfigMap
 metadata:
   name: {{ .Release.Name }}-frontend-config
 data:
-  REACT_APP_API_URL: >-
-    http://{{ .Release.Name }}-backend:5000
+  # Leave empty so the frontend uses relative URLs.
+  # nginx's /api proxy_pass will forward requests to the backend.
+  # REACT_APP_API_URL is a build-time CRA variable — setting it at
+  # runtime has no effect, so we rely on the nginx reverse proxy instead.
+  REACT_APP_API_URL: ""

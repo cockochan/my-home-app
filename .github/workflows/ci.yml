@@ -58,8 +58,6 @@ jobs:
           context: ./frontend
           platforms: linux/arm64
           push: true
-          build-args: |
-            REACT_APP_API_URL=https://blackpie.taila33551.ts.net:8443
           tags: |
             ghcr.io/${{ env.IMAGE_OWNER }}/my-home-app-frontend:${{ github.sha }}
             ghcr.io/${{ env.IMAGE_OWNER }}/my-home-app-frontend:latest
