@@ -106,9 +106,14 @@ docker login ghcr.io -u cockochan
 # NEVER paste a real token into a chat/doc — if one is ever exposed, revoke it immediately at github.com/settings/tokens.
 
 docker buildx build --platform linux/arm64 \
-  --build-arg REACT_APP_API_URL=https://blackpie.taila33551.ts.net:8443 \
   -t ghcr.io/cockochan/my-home-app-frontend:latest \
   --push ./frontend
+
+> **Important:** Do NOT pass `--build-arg REACT_APP_API_URL=...` with an absolute URL.
+> The Dockerfile defaults to an empty value so the frontend uses relative URLs (`/api/*`).
+> The nginx reverse proxy inside the container forwards these to the backend service.
+> If you use an absolute URL (e.g. a tunnel URL), requests bypass nginx and the backend
+> won't be reachable unless it's also exposed at that URL.
 
 docker buildx build --platform linux/arm64 \
   -t ghcr.io/cockochan/my-home-app-backend:latest \
